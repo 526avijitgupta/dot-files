@@ -1,0 +1,28 @@
+# example config (see "hg help config" for more info)
+
+[ui]
+username = Avijit Gupta <526avijitgupta@gmail.com>
+
+[extensions]
+# uncomment these lines to enable some popular extensions
+# (see "hg help extensions" for more info)
+# pager =
+progress = 
+color = 
+rebase = 
+histedit = 
+mq =
+shelve =
+transplant =
+hgext.graphlog =
+[diff]
+git = 1
+showfunc = 1
+unified = 8
+[defaults]
+qnew = -Ue
+[hostfingerprints]
+bugzilla.mozilla.org = 47:13:a2:14:0c:46:45:53:12:0d:e5:36:16:a5:60:26:3e:da:3a:60
+bitbucket.org = 45:ad:ae:1a:cf:0e:73:47:06:07:e0:88:f5:cc:10:e5:fa:1c:f7:99
+hg.mozilla.org = af:27:b9:34:47:4e:e5:98:01:f6:83:2b:51:c9:aa:d8:df:fb:1a:27
+# color =
