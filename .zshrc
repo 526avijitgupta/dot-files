@@ -65,8 +65,16 @@ source $ZSH/oh-my-zsh.sh
 #   export EDITOR='mvim'
 # fi
 
+
+
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
+
+# Make directory and cd into it
+mkcd () {
+  mkdir "$1"
+  cd "$1"
+}
 
 # ssh
 # export SSH_KEY_PATH="~/.ssh/dsa_id"
@@ -100,6 +108,7 @@ alias em='sudo emacs'
 alias qw='cd /var/www/'
 alias youtube-mp3='youtube-dl --extract-audio --audio-format mp3'
 alias tunnel='ssh -L 8080:localhost:80 526avijit@u5kkc60d14c2.526avijit.koding.io -D 8888'
- 
+alias eclipse='cd && ./Downloads/adt-bundle-linux-x86_64-20140321/eclipse/eclipse'
+
 # export WORKON_HOME=$HOME/.virtualenvs
 source /usr/local/bin/virtualenvwrapper.sh
