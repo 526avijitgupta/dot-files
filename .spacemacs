@@ -94,7 +94,7 @@ before layers configuration."
    dotspacemacs-enable-paste-micro-state t
    ;; Guide-key delay in seconds. The Guide-key is the popup buffer listing
    ;; the commands bound to the current keystrokes.
-   dotspacemacs-guide-key-delay 0.4
+   dotspacemacs-guide-key-delay 0.5
    ;; If non nil a progress bar is displayed when spacemacs is loading. This
    ;; may increase the boot time on some systems and emacs builds, set it to
    ;; nil ;; to boost the loading time.
@@ -108,15 +108,15 @@ before layers configuration."
    ;; If non nil the frame is maximized when Emacs starts up.
    ;; Takes effect only if `dotspacemacs-fullscreen-at-startup' is nil.
    ;; (Emacs 24.4+ only)
-   ;; dotspacemacs-maximized-at-startup nil
+   dotspacemacs-maximized-at-startup t
    ;; A value from the range (0..100), in increasing opacity, which describes
    ;; the transparency level of a frame when it's active or selected.
    ;; Transparency can be toggled through `toggle-transparency'.
-   dotspacemacs-active-transparency 90
+   ;; dotspacemacs-active-transparency 90
    ;; A value from the range (0..100), in increasing opacity, which describes
    ;; the transparency level of a frame when it's inactive or deselected.
    ;; Transparency can be toggled through `toggle-transparency'.
-   dotspacemacs-inactive-transparency 90
+   ;; dotspacemacs-inactive-transparency 90
    ;; If non nil unicode symbols are displayed in the mode line.
    dotspacemacs-mode-line-unicode-symbols t
    ;; If non nil smooth scrolling (native-scrolling) is enabled. Smooth
@@ -141,14 +141,113 @@ before layers configuration."
   "Configuration function.
  This function is called at the very end of Spacemacs initialization after
 layers configuration."
+  (global-linum-mode)
+  (setq large-file-warning-threshold 100000000)
+
   (set-face-attribute 'default nil :height 115)
   (setq-default dotspacemacs-editing-style 'vim)
   (setq-default c-basic-offset 4)
-  (global-linum-mode)
+  ;; (global-linum-mode)
   (load-theme 'solarized-dark t)
   (anzu-mode t)
   (setq js-indent-level 2)
   (setq-default indent-tabs-mode nil)
+
+  (setq split-width-threshold 0)
+
+  (set-language-environment 'utf-8)
+  (setq locale-coding-system 'utf-8)
+  (set-default-coding-systems 'utf-8)
+  (set-terminal-coding-system 'utf-8)
+  (prefer-coding-system 'utf-8)
+
+  ;; Line duplication
+  (defun duplicate-line-or-region (&optional n)
+    "Duplicate current line, or region if active.
+With argument N, make N copies.
+With negative N, comment out original line and use the absolute value."
+    (interactive "*p")
+    (let ((use-region (use-region-p)))
+      (save-excursion
+        (let ((text (if use-region        ;Get region if active, otherwise line
+                        (buffer-substring (region-beginning) (region-end))
+                      (prog1 (thing-at-point 'line)
+                        (end-of-line)
+                        (if (< 0 (forward-line 1)) ;Go to beginning of next line, or make a new one
+                            (newline))))))
+          (dotimes (i (abs (or n 1)))     ;Insert N times, or once if not specified
+            (insert text))))
+      (if use-region nil                  ;Only if we're working with a line (not a region)
+        (let ((pos (- (point) (line-beginning-position)))) ;Save column
+          (if (> 0 n)                             ;Comment out original with negative arg
+              (comment-region (line-beginning-position) (line-end-position)))
+          (forward-line 1)
+          (forward-char pos)))))
+  (global-set-key (kbd "C-q") 'duplicate-line-or-region)
+
+  ;; Comment uncomment
+  (defun comment-or-uncomment-region-or-line ()
+    "Comments or uncomments the region or the current line if there's no active region."
+    (interactive)
+    (let (beg end)
+      (if (region-active-p)
+          (setq beg (region-beginning) end (region-end))
+        (setq beg (line-beginning-position) end (line-end-position)))
+      (comment-or-uncomment-region beg end)))
+  (global-set-key (kbd "M-;") 'comment-or-uncomment-region-or-line)
+
+  ;; adds default code on creating a new c++ file
+  (defun insert-my-c++-headers ()
+    (when (= 0 (buffer-size))
+      (insert "#include <iostream>\nusing namespace std;\n\nint main()\n{\n    return 0;\n}\n")))
+
+  (add-hook 'c++-mode-hook 'insert-my-c++-headers)
+
+  ;; adds default code on creating a new c file
+  (defun insert-my-c-headers ()
+    (when (= 0 (buffer-size))
+      (insert "#include <stdio.h>\n#include <stdlib.h>\n\nint main()\n{\n    return 0;\n}\n")))
+
+  (add-hook 'c-mode-hook 'insert-my-c-headers)
+
+  ;; Move more quickly
+  (global-set-key (kbd "C-S-n")
+                  (lambda ()
+                    (interactive)
+                    (ignore-errors (next-line 5))))
+
+  (global-set-key (kbd "C-S-p")
+                  (lambda ()
+                    (interactive)
+                    (ignore-errors (previous-line 5))))
+
+  (global-set-key (kbd "C-S-f")
+                  (lambda ()
+                    (interactive)
+                    (ignore-errors (forward-char 5))))
+
+  (global-set-key (kbd "C-S-b")
+                  (lambda ()
+                    (interactive)
+                    (ignore-errors (backward-char 5))))
+
+  ;; Open shell in a new buffer(vertically split).
+  (defun open-shell-new-buffer ()
+    "Invoke shell in a new vertical split buffer"
+    (interactive)
+    (pop-to-buffer (get-buffer-create (generate-new-buffer-name "shell")))
+    ;; (shell (current-buffer))
+    (multi-term)
+    )
+  (global-set-key (kbd "C-!") 'open-shell-new-buffer)
+
+  ;; Write backup files to own directory
+  (setq backup-directory-alist
+        `(("." . ,(expand-file-name
+                   (concat user-emacs-directory "backups")))))
+
+  ;; Make backups of files, even when they're in version control
+  (setq vc-make-backup-files t)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -167,7 +266,9 @@ layers configuration."
  '(custom-safe-themes (quote ("6ebb2401451dc6d01cd761eef8fe24812a57793c5ccc427b600893fa1d767b1d" "a041a61c0387c57bb65150f002862ebcfe41135a3e3425268de24200b82d6ec9" "282606e51ef2811142af5068bd6694b7cf643b27d63666868bc97d04422318c1" "d9a09bb02e2a1c54869dfd6a1412553fe5cb2d01a94ba25ef2be4634d1ca2c79" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
  '(global-auto-complete-mode t)
  '(ring-bell-function (quote ignore) t)
- '(server-mode t))
+ '(server-mode t)
+ '(solarized-distinct-fringe-background t)
+ '(solarized-use-more-italic t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
