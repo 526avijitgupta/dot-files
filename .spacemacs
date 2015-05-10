@@ -236,7 +236,6 @@ With negative N, comment out original line and use the absolute value."
     "Invoke shell in a new vertical split buffer"
     (interactive)
     (pop-to-buffer (get-buffer-create (generate-new-buffer-name "shell")))
-    ;; (shell (current-buffer))
     (multi-term)
     )
   (global-set-key (kbd "C-!") 'open-shell-new-buffer)
