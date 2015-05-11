@@ -21,23 +21,21 @@
      markdown
      php
      restclient
+     ;; shell-scripts
      smex
      ;; syntax-checking
      ;; better-defaults
-     ;; markdown
      ;; org
      )
    ;; A list of packages and/or extensions that will not be install and loaded.
-   dotspacemacs-excluded-packages '()
+   dotspacemacs-excluded-packages'()
    ;; If non-nil spacemacs will delete any orphan packages, i.e. packages that
    ;; are declared in a layer which is not a member of
    ;; the list `dotspacemacs-configuration-layers'
    dotspacemacs-delete-orphan-packages t))
 
 (defun dotspacemacs/init ()
-  "Initialization function.
-This function is called at the very startup of Spacemacs initialization
-before layers configuration."
+  "Initialization function. This function is called at the very startup of Spacemacs initialization before layers configuration."
   ;; This setq-default sexp is an exhaustive list of all the supported
   ;; spacemacs settings.
   (setq-default
@@ -141,20 +139,20 @@ before layers configuration."
   "Configuration function.
  This function is called at the very end of Spacemacs initialization after
 layers configuration."
-  (global-linum-mode)
   (setq large-file-warning-threshold 100000000)
 
   (set-face-attribute 'default nil :height 115)
   (setq-default dotspacemacs-editing-style 'vim)
   (setq-default c-basic-offset 4)
-  ;; (global-linum-mode)
+  (global-linum-mode)
   (load-theme 'solarized-dark t)
-  (anzu-mode t)
+  (anzu-mode +1)
   (setq js-indent-level 2)
   (setq-default indent-tabs-mode nil)
 
   (setq split-width-threshold 0)
 
+  (setq auto-complete-mode t)
   (set-language-environment 'utf-8)
   (setq locale-coding-system 'utf-8)
   (set-default-coding-systems 'utf-8)
@@ -163,9 +161,7 @@ layers configuration."
 
   ;; Line duplication
   (defun duplicate-line-or-region (&optional n)
-    "Duplicate current line, or region if active.
-With argument N, make N copies.
-With negative N, comment out original line and use the absolute value."
+    "Duplicate current line, or region if active.With argument N, make N copies.With negative N, comment out original line and use the absolute value."
     (interactive "*p")
     (let ((use-region (use-region-p)))
       (save-excursion
@@ -185,7 +181,7 @@ With negative N, comment out original line and use the absolute value."
           (forward-char pos)))))
   (global-set-key (kbd "C-q") 'duplicate-line-or-region)
 
-  ;; Comment uncomment
+  ;; Comment uncomment the current line / selected region
   (defun comment-or-uncomment-region-or-line ()
     "Comments or uncomments the region or the current line if there's no active region."
     (interactive)
@@ -196,14 +192,14 @@ With negative N, comment out original line and use the absolute value."
       (comment-or-uncomment-region beg end)))
   (global-set-key (kbd "M-;") 'comment-or-uncomment-region-or-line)
 
-  ;; adds default code on creating a new c++ file
+  ;; Adds default code on creating a new c++ file
   (defun insert-my-c++-headers ()
     (when (= 0 (buffer-size))
       (insert "#include <iostream>\nusing namespace std;\n\nint main()\n{\n    return 0;\n}\n")))
 
   (add-hook 'c++-mode-hook 'insert-my-c++-headers)
 
-  ;; adds default code on creating a new c file
+  ;; Adds default code on creating a new c file
   (defun insert-my-c-headers ()
     (when (= 0 (buffer-size))
       (insert "#include <stdio.h>\n#include <stdlib.h>\n\nint main()\n{\n    return 0;\n}\n")))
@@ -239,14 +235,6 @@ With negative N, comment out original line and use the absolute value."
     (multi-term)
     )
   (global-set-key (kbd "C-!") 'open-shell-new-buffer)
-
-  ;; Write backup files to own directory
-  (setq backup-directory-alist
-        `(("." . ,(expand-file-name
-                   (concat user-emacs-directory "backups")))))
-
-  ;; Make backups of files, even when they're in version control
-  (setq vc-make-backup-files t)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -256,14 +244,17 @@ With negative N, comment out original line and use the absolute value."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ac-auto-start t)
+ '(ac-auto-start t t)
  '(ahs-case-fold-search nil)
  '(ahs-default-range (quote ahs-range-whole-buffer))
  '(ahs-idle-interval 0.25)
  '(ahs-idle-timer 0 t)
  '(ahs-inhibit-face-list nil)
- '(custom-safe-themes (quote ("6ebb2401451dc6d01cd761eef8fe24812a57793c5ccc427b600893fa1d767b1d" "a041a61c0387c57bb65150f002862ebcfe41135a3e3425268de24200b82d6ec9" "282606e51ef2811142af5068bd6694b7cf643b27d63666868bc97d04422318c1" "d9a09bb02e2a1c54869dfd6a1412553fe5cb2d01a94ba25ef2be4634d1ca2c79" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
+ '(custom-safe-themes
+   (quote
+    ("5d8caed7f4ed8929fd79e863de3a38fbb1aaa222970b551edfd2e84552fec020" "6ebb2401451dc6d01cd761eef8fe24812a57793c5ccc427b600893fa1d767b1d" "a041a61c0387c57bb65150f002862ebcfe41135a3e3425268de24200b82d6ec9" "282606e51ef2811142af5068bd6694b7cf643b27d63666868bc97d04422318c1" "d9a09bb02e2a1c54869dfd6a1412553fe5cb2d01a94ba25ef2be4634d1ca2c79" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
  '(global-auto-complete-mode t)
+ '(auto-complete-mode t)
  '(ring-bell-function (quote ignore) t)
  '(server-mode t)
  '(solarized-distinct-fringe-background t)
