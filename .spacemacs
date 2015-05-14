@@ -142,17 +142,17 @@ layers configuration."
   (setq large-file-warning-threshold 100000000)
 
   (set-face-attribute 'default nil :height 115)
+  (setq-default auto-complete-mode 1)
   (setq-default dotspacemacs-editing-style 'vim)
   (setq-default c-basic-offset 4)
   (global-linum-mode)
   (load-theme 'solarized-dark t)
-  (anzu-mode +1)
+  (setq aggressive-indent-mode t)
   (setq js-indent-level 2)
   (setq-default indent-tabs-mode nil)
 
   (setq split-width-threshold 0)
 
-  (setq auto-complete-mode t)
   (set-language-environment 'utf-8)
   (setq locale-coding-system 'utf-8)
   (set-default-coding-systems 'utf-8)
