@@ -18,9 +18,8 @@
      ;; --------------------------------------------------------
      auto-completion
      html
-     markdown
-     php
-     restclient
+     ;; markdown
+     ;; php
      ;; shell-scripts
      smex
      ;; syntax-checking
@@ -59,11 +58,8 @@
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(solarized-light
-                         solarized-dark
-                         leuven
-                         monokai
-                         zenburn)
+   dotspacemacs-themes '(monokai
+                         solarized-dark)
    ;; If non nil the cursor color matches the state color.
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font. `powerline-scale' allows to quickly tweak the mode-line
@@ -92,7 +88,7 @@
    dotspacemacs-enable-paste-micro-state t
    ;; Guide-key delay in seconds. The Guide-key is the popup buffer listing
    ;; the commands bound to the current keystrokes.
-   dotspacemacs-guide-key-delay 0.5
+   dotspacemacs-guide-key-delay 0.9
    ;; If non nil a progress bar is displayed when spacemacs is loading. This
    ;; may increase the boot time on some systems and emacs builds, set it to
    ;; nil ;; to boost the loading time.
@@ -140,19 +136,15 @@
  This function is called at the very end of Spacemacs initialization after
 layers configuration."
   (setq large-file-warning-threshold 100000000)
-
-  (set-face-attribute 'default nil :height 115)
-  (setq-default auto-complete-mode 1)
+  (setq powerline-default-separator 'zigzag)
+  (set-face-attribute 'default nil :height 130)
   (setq-default dotspacemacs-editing-style 'vim)
   (setq-default c-basic-offset 4)
   (global-linum-mode)
-  (load-theme 'solarized-dark t)
-  (setq aggressive-indent-mode t)
-  (setq js-indent-level 2)
+  ;; (setq aggressive-indent-mode t)
+  (setq js-indent-level 4)
   (setq-default indent-tabs-mode nil)
-
   (setq split-width-threshold 0)
-
   (set-language-environment 'utf-8)
   (setq locale-coding-system 'utf-8)
   (set-default-coding-systems 'utf-8)
@@ -216,16 +208,6 @@ layers configuration."
                   (lambda ()
                     (interactive)
                     (ignore-errors (previous-line 5))))
-
-  (global-set-key (kbd "C-S-f")
-                  (lambda ()
-                    (interactive)
-                    (ignore-errors (forward-char 5))))
-
-  (global-set-key (kbd "C-S-b")
-                  (lambda ()
-                    (interactive)
-                    (ignore-errors (backward-char 5))))
 
   ;; Open shell in a new buffer(vertically split).
   (defun open-shell-new-buffer ()
