@@ -102,7 +102,7 @@
    ;; If non nil the frame is maximized when Emacs starts up.
    ;; Takes effect only if `dotspacemacs-fullscreen-at-startup' is nil.
    ;; (Emacs 24.4+ only)
-   dotspacemacs-maximized-at-startup t
+   ;; dotspacemacs-maximized-at-startup t
    ;; A value from the range (0..100), in increasing opacity, which describes
    ;; the transparency level of a frame when it's active or selected.
    ;; Transparency can be toggled through `toggle-transparency'.
@@ -123,7 +123,8 @@
    dotspacemacs-persistent-server nil
    ;; List of search tool executable names. Spacemacs uses the first installed
    ;; tool of the list. Supported tools are `ag', `pt', `ack' and `grep'.
-   dotspacemacs-search-tools '("ag" "pt" "ack" "grep")
+   ;; dotspacemacs-search-tools '("ag" "pt" "ack" "grep")
+   dotspacemacs-search-tools '("grep")
    ;; The default package repository used if no explicit repository has been
    ;; specified with an installed package.
    ;; Not used for now.
@@ -138,7 +139,8 @@ layers configuration."
   (setq large-file-warning-threshold 100000000)
   (setq powerline-default-separator 'zigzag)
   (set-face-attribute 'default nil :height 130)
-  (setq-default dotspacemacs-editing-style 'vim)
+  ;; (setq-default dotspacemacs-editing-style 'vim)
+  (setq-default dotspacemacs-editing-style 'emacs)
   (setq-default c-basic-offset 4)
   (global-linum-mode)
   ;; (setq aggressive-indent-mode t)
@@ -150,6 +152,7 @@ layers configuration."
   (set-default-coding-systems 'utf-8)
   (set-terminal-coding-system 'utf-8)
   (prefer-coding-system 'utf-8)
+  (global-set-key (kbd "C-x C-y") 'yas-expand)
 
   ;; Line duplication
   (defun duplicate-line-or-region (&optional n)
