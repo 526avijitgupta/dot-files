@@ -17,13 +17,18 @@
      ;; Uncomment a layer name and press C-c C-c to install it
      ;; --------------------------------------------------------
      auto-completion
+     better-defaults
+     dash
+     ;; github
      html
+     ;; javascript
      ;; markdown
      ;; php
      ;; shell-scripts
+     shell
      smex
+     ;; version-control
      ;; syntax-checking
-     ;; better-defaults
      ;; org
      )
    ;; A list of packages and/or extensions that will not be install and loaded.
@@ -58,7 +63,8 @@
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(monokai
+   dotspacemacs-themes '(spacemacs-dark
+                         monokai
                          solarized-dark)
    ;; If non nil the cursor color matches the state color.
    dotspacemacs-colorize-cursor-according-to-state t
@@ -137,12 +143,13 @@
  This function is called at the very end of Spacemacs initialization after
 layers configuration."
   (setq large-file-warning-threshold 100000000)
-  (setq powerline-default-separator 'zigzag)
   (set-face-attribute 'default nil :height 130)
   ;; (setq-default dotspacemacs-editing-style 'vim)
   (setq-default dotspacemacs-editing-style 'emacs)
   (setq-default c-basic-offset 4)
-  (global-linum-mode)
+  (global-linum-mode 1)
+  (global-company-mode 1)
+  (delete-selection-mode 1)
   ;; (setq aggressive-indent-mode t)
   (setq js-indent-level 4)
   (setq-default indent-tabs-mode nil)
@@ -152,31 +159,74 @@ layers configuration."
   (set-default-coding-systems 'utf-8)
   (set-terminal-coding-system 'utf-8)
   (prefer-coding-system 'utf-8)
-  (global-set-key (kbd "C-x C-y") 'yas-expand)
 
-  ;; Line duplication
+  ;;;; Custom Function
   (defun duplicate-line-or-region (&optional n)
     "Duplicate current line, or region if active.With argument N, make N copies.With negative N, comment out original line and use the absolute value."
     (interactive "*p")
     (let ((use-region (use-region-p)))
       (save-excursion
-        (let ((text (if use-region        ;Get region if active, otherwise line
+        (let ((text (if use-region
                         (buffer-substring (region-beginning) (region-end))
                       (prog1 (thing-at-point 'line)
                         (end-of-line)
-                        (if (< 0 (forward-line 1)) ;Go to beginning of next line, or make a new one
+                        (if (< 0 (forward-line 1))
                             (newline))))))
-          (dotimes (i (abs (or n 1)))     ;Insert N times, or once if not specified
+          (dotimes (i (abs (or n 1)))
             (insert text))))
-      (if use-region nil                  ;Only if we're working with a line (not a region)
-        (let ((pos (- (point) (line-beginning-position)))) ;Save column
-          (if (> 0 n)                             ;Comment out original with negative arg
+      (if use-region nil
+        (let ((pos (- (point) (line-beginning-position))))
+          (if (> 0 n)
               (comment-region (line-beginning-position) (line-end-position)))
           (forward-line 1)
           (forward-char pos)))))
-  (global-set-key (kbd "C-q") 'duplicate-line-or-region)
 
-  ;; Comment uncomment the current line / selected region
+  (defadvice kill-region (before slick-cut activate compile)
+    "When called interactively with no active region, kill a single line instead."
+    (interactive
+     (if mark-active
+         (list (region-beginning) (region-end))
+       (list (line-beginning-position) (line-beginning-position 2)))))
+
+  (defadvice kill-ring-save (before slick-copy activate compile)
+    "When called interactively with no active region, copy a single line instead."
+    (interactive
+     (if mark-active
+         (list (region-beginning) (region-end))
+       (message "Copied line")
+       (list (line-beginning-position) (line-beginning-position 2)))))
+
+  (defun ruthlessly-kill-whole-line ()
+    "Deletes a line, but does not put it in the kill-ring."
+    (interactive)
+    (move-beginning-of-line 1)
+    (kill-line 1)
+    (setq kill-ring (cdr kill-ring)))
+
+  (defun ruthlessly-kill-line ()
+    "Deletes till the end of the line, starting from the current column, but does not put it in the kill-ring."
+    (interactive)
+    (kill-line)
+    (setq kill-ring (cdr kill-ring)))
+
+  (defun my-delete-word (arg)
+    "Delete characters forward until encountering the end of a word.
+With argument, do this that many times.
+This command does not push text to `kill-ring'."
+    (interactive "p")
+    (delete-region
+     (point)
+     (progn
+       (forward-word arg)
+       (point))))
+
+  (defun my-backward-delete-word (arg)
+    "Delete characters backward until encountering the beginning of a word.
+With argument, do this that many times.
+This command does not push text to `kill-ring'."
+    (interactive "p")
+    (my-delete-word (- arg)))
+
   (defun comment-or-uncomment-region-or-line ()
     "Comments or uncomments the region or the current line if there's no active region."
     (interactive)
@@ -185,41 +235,35 @@ layers configuration."
           (setq beg (region-beginning) end (region-end))
         (setq beg (line-beginning-position) end (line-end-position)))
       (comment-or-uncomment-region beg end)))
-  (global-set-key (kbd "M-;") 'comment-or-uncomment-region-or-line)
 
-  ;; Adds default code on creating a new c++ file
   (defun insert-my-c++-headers ()
+  ;; Adds default code on creating a new c++ file
     (when (= 0 (buffer-size))
       (insert "#include <iostream>\nusing namespace std;\n\nint main()\n{\n    return 0;\n}\n")))
-
   (add-hook 'c++-mode-hook 'insert-my-c++-headers)
 
-  ;; Adds default code on creating a new c file
   (defun insert-my-c-headers ()
+  ;; Adds default code on creating a new c file
     (when (= 0 (buffer-size))
       (insert "#include <stdio.h>\n#include <stdlib.h>\n\nint main()\n{\n    return 0;\n}\n")))
-
   (add-hook 'c-mode-hook 'insert-my-c-headers)
 
-  ;; Move more quickly
-  (global-set-key (kbd "C-S-n")
-                  (lambda ()
-                    (interactive)
-                    (ignore-errors (next-line 5))))
-
-  (global-set-key (kbd "C-S-p")
-                  (lambda ()
-                    (interactive)
-                    (ignore-errors (previous-line 5))))
-
-  ;; Open shell in a new buffer(vertically split).
   (defun open-shell-new-buffer ()
-    "Invoke shell in a new vertical split buffer"
+    "Invoke shell in a new vertically split buffer"
     (interactive)
     (pop-to-buffer (get-buffer-create (generate-new-buffer-name "shell")))
-    (multi-term)
-    )
+    ;; must have 'shell' added to your dotspacemacs-configuration-layers to work
+    (multi-term))
+
+  ;;;; Keybindings
+  (global-set-key (kbd "C-k") 'ruthlessly-kill-line)
+  (global-set-key (kbd "C-q") 'duplicate-line-or-region)
   (global-set-key (kbd "C-!") 'open-shell-new-buffer)
+  (global-set-key (kbd "C-S-<backspace>") 'ruthlessly-kill-whole-line)
+  (global-set-key (kbd "M-;") 'comment-or-uncomment-region-or-line)
+  (global-set-key (kbd "M-<backspace>") 'my-backward-delete-word)
+  (global-set-key (kbd "M-<delete>") 'my-backward-delete-word)
+  (global-set-key (kbd "M-d") 'my-delete-word)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -229,17 +273,17 @@ layers configuration."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ac-auto-start t t)
+ '(ac-auto-start t)
+ '(ac-delay 0.1)
  '(ahs-case-fold-search nil)
  '(ahs-default-range (quote ahs-range-whole-buffer))
  '(ahs-idle-interval 0.25)
  '(ahs-idle-timer 0 t)
  '(ahs-inhibit-face-list nil)
- '(custom-safe-themes
-   (quote
-    ("5d8caed7f4ed8929fd79e863de3a38fbb1aaa222970b551edfd2e84552fec020" "6ebb2401451dc6d01cd761eef8fe24812a57793c5ccc427b600893fa1d767b1d" "a041a61c0387c57bb65150f002862ebcfe41135a3e3425268de24200b82d6ec9" "282606e51ef2811142af5068bd6694b7cf643b27d63666868bc97d04422318c1" "d9a09bb02e2a1c54869dfd6a1412553fe5cb2d01a94ba25ef2be4634d1ca2c79" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
- '(global-auto-complete-mode t)
- '(auto-complete-mode t)
+ '(custom-safe-themes (quote ("5d8caed7f4ed8929fd79e863de3a38fbb1aaa222970b551edfd2e84552fec020" "6ebb2401451dc6d01cd761eef8fe24812a57793c5ccc427b600893fa1d767b1d" "a041a61c0387c57bb65150f002862ebcfe41135a3e3425268de24200b82d6ec9" "282606e51ef2811142af5068bd6694b7cf643b27d63666868bc97d04422318c1" "d9a09bb02e2a1c54869dfd6a1412553fe5cb2d01a94ba25ef2be4634d1ca2c79" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
+ '(global-company-mode t)
+ '(global-subword-mode t)
+ '(globl-auto-complete-mode t)
  '(ring-bell-function (quote ignore) t)
  '(server-mode t)
  '(solarized-distinct-fringe-background t)
