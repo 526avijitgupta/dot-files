@@ -5,7 +5,6 @@ export ZSH=/home/avijit/.oh-my-zsh
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
-# ZSH_THEME="norm"
 ZSH_THEME="xiong-chiamiov-plus"
 
 # Uncomment the following line to use case-sensitive completion.
@@ -46,69 +45,26 @@ ZSH_THEME="xiong-chiamiov-plus"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
-
-# User configuration
+plugins=(git web-search autojump)
 
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
-# export MANPATH="/usr/local/man:$MANPATH"
-
 source $ZSH/oh-my-zsh.sh
+export EDITOR="emacs"
 
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
-
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
-
-
-
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-
-# Make directory and cd into it
-mkcd () {
-  mkdir "$1"
-  cd "$1"
+# Emacs run in background
+em() {
+    emacs "$@" &
 }
 
-# ssh
-# export SSH_KEY_PATH="~/.ssh/dsa_id"
-
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-
-# load virtualenvwrapper for python (after custom PATHs)
-# venvwrap="virtualenvwrapper.sh"
-# /usr/bin/which $venvwrap
-# if [ $? -eq 0 ]; then
-#     venvwrap=`/usr/bin/which $venvwrap`
-#     source $venvwrap
-# fi
-
-# some more ls aliases
-alias ll='ls -alF'
-alias la='ls -A'
-alias l='ls -CF'
-
-# manually added aliases
-alias et='sudo emacs -nw'
-alias ef='sudo emacs -fs'
-alias em='sudo emacs'
+# Custom aliases
+alias et='emacs24 -nw'
+alias sem='sudo emacs24'
 alias qw='cd /var/www/'
 alias youtube-mp3='youtube-dl --extract-audio --audio-format mp3'
 alias tunnel='ssh -L 8080:localhost:80 526avijit@u5kkc60d14c2.526avijit.koding.io -D 8888'
 alias eclipse='cd && ./Downloads/adt-bundle-linux-x86_64-20140321/eclipse/eclipse'
 
-# export WORKON_HOME=$HOME/.virtualenvs
-source /usr/local/bin/virtualenvwrapper.sh
+# some more ls aliases
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
