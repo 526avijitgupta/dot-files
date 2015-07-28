@@ -56,6 +56,10 @@ em() {
     emacs "$@" &
 }
 
+jcurl() {
+    curl "$1" | json | pygmentize -l json
+}
+
 # Custom aliases
 alias et='emacs24 -nw'
 alias sem='sudo emacs24'
