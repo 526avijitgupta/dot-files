@@ -18,12 +18,17 @@
      ;; --------------------------------------------------------
      auto-completion
      better-defaults
-     dash
+     colors
+     ;; dash
+     ;; editorconfig
+     ;; git
      ;; github
      html
      ;; javascript
      ;; markdown
      ;; php
+     ;; prodigy
+     restclient
      ;; shell-scripts
      shell
      smex
@@ -63,7 +68,8 @@
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(spacemacs-dark
+   dotspacemacs-themes '(spacemacs-light
+                         spacemacs-dark
                          monokai
                          solarized-dark)
    ;; If non nil the cursor color matches the state color.
@@ -160,7 +166,7 @@ layers configuration."
   (set-terminal-coding-system 'utf-8)
   (prefer-coding-system 'utf-8)
 
-  ;;;; Custom Function
+  ;;;; Custom Functions
   (defun duplicate-line-or-region (&optional n)
     "Duplicate current line, or region if active.With argument N, make N copies.With negative N, comment out original line and use the absolute value."
     (interactive "*p")
@@ -210,9 +216,7 @@ layers configuration."
     (setq kill-ring (cdr kill-ring)))
 
   (defun my-delete-word (arg)
-    "Delete characters forward until encountering the end of a word.
-With argument, do this that many times.
-This command does not push text to `kill-ring'."
+    "Delete characters forward until encountering the end of a word. With argument, do this that many times. This command does not push text to `kill-ring'."
     (interactive "p")
     (delete-region
      (point)
