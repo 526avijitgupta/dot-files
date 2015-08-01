@@ -60,7 +60,11 @@ em() {
 }
 
 ec() {
-    emacsclient -c -n -e "$@" emacsclient -c -e '(load "~/.emacsclient")' &
+    if [[ -z "$@" ]]; then
+        emacsclient -c -n -e '(load "~/.spacemacs")' &
+    else
+        emacsclient -c -n "$@" &
+    fi
 }
 
 jcurl() {
