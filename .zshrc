@@ -49,11 +49,18 @@ plugins=(git web-search autojump)
 
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
 source $ZSH/oh-my-zsh.sh
-export EDITOR="emacs"
+export EDITOR="emacsclient -t"
+export VISUAL="emacsclient -c -a"
+export ALTERNATE_EDITOR="emacs"
+export SUDO_EDITOR="emacsclient -t"
 
 # Emacs run in background
 em() {
     emacs "$@" &
+}
+
+ec() {
+    emacsclient -c -n -e "$@" emacsclient -c -e '(load "~/.emacsclient")' &
 }
 
 jcurl() {
@@ -61,14 +68,28 @@ jcurl() {
 }
 
 # Custom aliases
-alias et='emacs24 -nw'
-alias sem='sudo emacs24'
+alias et='emacs -nw'
+alias sem='sudo emacs'
 alias qw='cd /var/www/'
 alias youtube-mp3='youtube-dl --extract-audio --audio-format mp3'
 alias tunnel='ssh -L 8080:localhost:80 526avijit@u5kkc60d14c2.526avijit.koding.io -D 8888'
-alias eclipse='cd && ./Downloads/adt-bundle-linux-x86_64-20140321/eclipse/eclipse'
+# alias eclipse='cd && ./Downloads/adt-bundle-linux-x86_64-20140321/eclipse/eclipse'
 
 # some more ls aliases
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
+
+# Added by install script for node.js and npm in 30s
+export PATH=$HOME/local/bin:$PATH
+export NODE_PATH=$HOME/local/lib/node_modules
+
+# Until LinuxBrew is fixed, the following is required.
+# See: https://github.com/Homebrew/linuxbrew/issues/47
+export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:/usr/local/lib64/pkgconfig:/usr/lib64/pkgconfig:/usr/lib/pkgconfig:/usr/lib/x86_64-linux-gnu/pkgconfig:/usr/lib64/pkgconfig:/usr/share/pkgconfig:$PKG_CONFIG_PATH
+## Setup linux brew
+export LINUXBREWHOME=$HOME/.linuxbrew
+export PATH=$LINUXBREWHOME/bin:$PATH
+export MANPATH=$LINUXBREWHOME/man:$MANPATH
+export PKG_CONFIG_PATH=$LINUXBREWHOME/lib64/pkgconfig:$LINUXBREWHOME/lib/pkgconfig:$PKG_CONFIG_PATH
+export LD_LIBRARY_PATH=$LINUXBREWHOME/lib64:$LINUXBREWHOME/lib:$LD_LIBRARY_PATH
