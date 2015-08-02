@@ -119,7 +119,7 @@ Ensure that helm is required before calling FUNC."
   "fev" 'spacemacs/display-and-copy-version
   "fg" 'rgrep
   "fj" 'dired-jump
-  "fk" 'locate-with-filter
+  "fl" 'locate-with-filter
   "fo" 'spacemacs/open-in-external-app
   "fR"  'rename-current-buffer-file
   "fS" 'evil-write-all
