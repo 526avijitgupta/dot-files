@@ -68,28 +68,15 @@
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(birds-of-paradise-plus
-                         gruvbox
-                         sanityinc-solarized-dark
+   dotspacemacs-themes '(spacemacs-dark
                          monokai
-                         solarized-dark
-                         afternoon
-                         ample-zen
-                         brin
-                         cyberpunk
-                         darktooth
-                         deeper-blue
-                         django
-                         flatland
-                         gotham
-                         inkpot
-                         misterioso
-                         molokai
-                         pastels-on-dark
-                         seti
+                         gruvbox
                          twilight-anti-bright
-                         underwater
-                         zonokai-blue)
+                         birds-of-paradise-plus
+                         sanityinc-solarized-dark
+                         cyberpunk
+                         gotham
+                         molokai)
    ;; If non nil the cursor color matches the state color.
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font. `powerline-scale' allows to quickly tweak the mode-line
@@ -307,7 +294,6 @@ This command does not push text to `kill-ring'."
  '(global-subword-mode t)
  '(globl-auto-complete-mode t)
  '(ring-bell-function (quote ignore) t)
- '(server-mode t)
  '(solarized-distinct-fringe-background t)
  '(solarized-use-more-italic t))
 (custom-set-faces
