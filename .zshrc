@@ -5,7 +5,8 @@ export ZSH=/home/avijit/.oh-my-zsh
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
-ZSH_THEME="xiong-chiamiov-plus"
+# ZSH_THEME="xiong-chiamiov-plus"
+ZSH_THEME="gitster"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -45,7 +46,7 @@ ZSH_THEME="xiong-chiamiov-plus"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git web-search autojump)
+plugins=(git autojump)
 
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
 source $ZSH/oh-my-zsh.sh
@@ -77,6 +78,7 @@ alias sem='sudo emacs'
 alias qw='cd /var/www/'
 alias youtube-mp3='youtube-dl --extract-audio --audio-format mp3'
 alias tunnel='ssh -L 8080:localhost:80 526avijit@u5kkc60d14c2.526avijit.koding.io -D 8888'
+alias night-mode='sudo su -c "echo 20 >/sys/class/backlight/intel_backlight/brightness"'
 # alias eclipse='cd && ./Downloads/adt-bundle-linux-x86_64-20140321/eclipse/eclipse'
 
 # some more ls aliases
@@ -97,3 +99,11 @@ export PATH=$LINUXBREWHOME/bin:$PATH
 export MANPATH=$LINUXBREWHOME/man:$MANPATH
 export PKG_CONFIG_PATH=$LINUXBREWHOME/lib64/pkgconfig:$LINUXBREWHOME/lib/pkgconfig:$PKG_CONFIG_PATH
 export LD_LIBRARY_PATH=$LINUXBREWHOME/lib64:$LINUXBREWHOME/lib:$LD_LIBRARY_PATH
+
+# load virtualenvwrapper for python (after custom PATHs)
+venvwrap="virtualenvwrapper.sh"
+/usr/bin/which $venvwrap
+if [ $? -eq 0 ]; then
+    venvwrap=`/usr/bin/which $venvwrap`
+    source $venvwrap
+    fi
