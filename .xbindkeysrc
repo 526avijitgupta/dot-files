@@ -26,24 +26,13 @@
 # m:xxx + c:xxx 
 # Shift+... 
 
-
-
-
 #keystate_numlock = enable
 #keystate_scrolllock = enable
 #keystate_capslock = enable
 
-
-
-#cyberoam-rescue
-"python .post.py login"
+#cyberoam-rescue login
+"python ~/github/cyberoam-rescue/.post.py login"
     m:0x44 + c:46
     Control+Mod4 + l 
 
-#spacemacs
-"sudo emacs24"
-    m:0x44 + c:26
-    Control+Mod4 + e 
-
-#
 # End of xbindkeys configuration
