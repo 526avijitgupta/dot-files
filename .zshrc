@@ -1,3 +1,4 @@
+
 # Path to your oh-my-zsh installation.
 export ZSH=/home/avijit/.oh-my-zsh
 
@@ -5,8 +6,8 @@ export ZSH=/home/avijit/.oh-my-zsh
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
-# ZSH_THEME="xiong-chiamiov-plus"
-ZSH_THEME="gitster"
+ZSH_THEME="xiong-chiamiov-plus"
+# ZSH_THEME="gitster"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -53,7 +54,7 @@ source $ZSH/oh-my-zsh.sh
 export EDITOR="emacsclient -t"
 export VISUAL="emacsclient -c -a"
 export ALTERNATE_EDITOR="emacs"
-export SUDO_EDITOR="emacsclient -t"
+export SUDO_EDITOR="emacsclient -n -c"
 
 # Emacs run in background
 em() {
@@ -61,11 +62,7 @@ em() {
 }
 
 ec() {
-    if [[ -z "$@" ]]; then
-        emacsclient -c -n -e '(load "~/.spacemacs")' &
-    else
-        emacsclient -c -n "$@" &
-    fi
+    emacsclient -c -n "$@" &
 }
 
 jcurl() {
@@ -107,3 +104,4 @@ if [ $? -eq 0 ]; then
     venvwrap=`/usr/bin/which $venvwrap`
     source $venvwrap
     fi
+PATH=~/.local/bin:$PATH
