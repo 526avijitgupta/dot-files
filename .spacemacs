@@ -192,6 +192,13 @@ layers configuration."
           (forward-line 1)
           (forward-char pos)))))
 
+  (defun execute-c-program ()
+    "Run C programs directly from within emacs."
+    (interactive)
+    (defvar foo)
+    (setq foo (concat "gcc " (buffer-name) " && ./a.out" ))
+    (shell-command foo))
+
   (defadvice kill-region (before slick-cut activate compile)
     "When called interactively with no active region, kill a single line instead."
     (interactive
@@ -246,19 +253,19 @@ This command does not push text to `kill-ring'."
       (comment-or-uncomment-region beg end)))
 
   (defun insert-my-c++-headers ()
-  ;; Adds default code on creating a new c++ file
+  "Adds default code on creating a new c++ file."
     (when (= 0 (buffer-size))
       (insert "#include <iostream>\nusing namespace std;\n\nint main()\n{\n    return 0;\n}\n")))
   (add-hook 'c++-mode-hook 'insert-my-c++-headers)
 
   (defun insert-my-c-headers ()
-  ;; Adds default code on creating a new c file
+  "Adds default code on creating a new c file."
     (when (= 0 (buffer-size))
       (insert "#include <stdio.h>\n#include <stdlib.h>\n\nint main()\n{\n    return 0;\n}\n")))
   (add-hook 'c-mode-hook 'insert-my-c-headers)
 
   (defun open-shell-new-buffer ()
-    "Invoke shell in a new vertically split buffer"
+    "Invoke shell in a new vertically split buffer."
     (interactive)
     (pop-to-buffer (get-buffer-create (generate-new-buffer-name "shell")))
     ;; must have 'shell' added to your dotspacemacs-configuration-layers to work
@@ -273,7 +280,8 @@ This command does not push text to `kill-ring'."
   (global-set-key (kbd "M-<backspace>") 'my-backward-delete-word)
   (global-set-key (kbd "M-<delete>") 'my-backward-delete-word)
   (global-set-key (kbd "M-d") 'my-delete-word)
-  )
+  (global-set-key (kbd "C-<f1>") 'execute-c-program)
+ )
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
@@ -289,11 +297,16 @@ This command does not push text to `kill-ring'."
  '(ahs-idle-interval 0.25)
  '(ahs-idle-timer 0 t)
  '(ahs-inhibit-face-list nil)
- '(custom-safe-themes (quote ("5d8caed7f4ed8929fd79e863de3a38fbb1aaa222970b551edfd2e84552fec020" "6ebb2401451dc6d01cd761eef8fe24812a57793c5ccc427b600893fa1d767b1d" "a041a61c0387c57bb65150f002862ebcfe41135a3e3425268de24200b82d6ec9" "282606e51ef2811142af5068bd6694b7cf643b27d63666868bc97d04422318c1" "d9a09bb02e2a1c54869dfd6a1412553fe5cb2d01a94ba25ef2be4634d1ca2c79" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
+ '(custom-safe-themes
+   (quote
+    ("5d8caed7f4ed8929fd79e863de3a38fbb1aaa222970b551edfd2e84552fec020" "6ebb2401451dc6d01cd761eef8fe24812a57793c5ccc427b600893fa1d767b1d" "a041a61c0387c57bb65150f002862ebcfe41135a3e3425268de24200b82d6ec9" "282606e51ef2811142af5068bd6694b7cf643b27d63666868bc97d04422318c1" "d9a09bb02e2a1c54869dfd6a1412553fe5cb2d01a94ba25ef2be4634d1ca2c79" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
  '(global-company-mode t)
  '(global-subword-mode t)
  '(globl-auto-complete-mode t)
- '(ring-bell-function (quote ignore) t)
+ '(package-selected-packages
+   (quote
+    (web-mode tagedit smex slim-mode shell-pop scss-mode sass-mode restclient rainbow-mode rainbow-identifiers multi-term less-css-mode helm-css-scss helm-c-yasnippet emmet-mode company-web company-statistics company-quickhelp auto-yasnippet ac-ispell auto-complete web-completion-data company yasnippet haml-mode window-numbering volatile-highlights vi-tilde-fringe use-package smooth-scrolling rfringe rainbow-delimiters powerline popup pcre2el paradox page-break-lines open-junk-file neotree move-text linum-relative leuven-theme info+ indent-guide ido-vertical-mode hungry-delete hl-anything highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-descbinds helm-ag guide-key-tip google-translate golden-ratio gh-md fringe-helper flx-ido fill-column-indicator fancy-battery expand-region exec-path-from-shell evil-visualstar evil-tutor evil-terminal-cursor-changer evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-matchit evil-lisp-state evil-jumper evil-indent-textobject evil-iedit-state evil-exchange evil-escape evil-args evil-anzu eval-sexp-fu clean-aindent-mode buffer-move auto-highlight-symbol auto-dictionary aggressive-indent adaptive-wrap ace-window ace-link ace-jump-mode)))
+ '(ring-bell-function (quote ignore))
  '(solarized-distinct-fringe-background t)
  '(solarized-use-more-italic t))
 (custom-set-faces
