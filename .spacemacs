@@ -21,8 +21,9 @@
      colors
      ;; dash
      ;; editorconfig
-     ;; git
+     git
      ;; github
+     ;; eyebrowse
      html
      ;; javascript
      ;; markdown
@@ -68,12 +69,12 @@
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(spacemacs-dark
+   dotspacemacs-themes '(sanityinc-solarized-dark
+                         spacemacs-dark
                          monokai
                          gruvbox
                          twilight-anti-bright
                          birds-of-paradise-plus
-                         sanityinc-solarized-dark
                          cyberpunk
                          gotham
                          molokai)
@@ -155,21 +156,26 @@
 layers configuration."
   (setq large-file-warning-threshold 100000000)
   (set-face-attribute 'default nil :height 130)
-  ;; (setq-default dotspacemacs-editing-style 'vim)
-  (setq-default dotspacemacs-editing-style 'emacs)
-  (setq-default c-basic-offset 4)
-  (global-linum-mode 1)
-  (global-company-mode 1)
-  (delete-selection-mode 1)
-  ;; (setq aggressive-indent-mode t)
-  (setq js-indent-level 4)
-  (setq-default indent-tabs-mode nil)
-  (setq split-width-threshold 0)
+
+  (setq-default
+   dotspacemacs-editing-style 'emacs
+   c-basic-offset 4
+   indent-tabs-mode nil
+   split-width-threshold 0
+   js-indent-level 2
+   git-magit-status-fullscreen t
+   )
+
+  (emmet-mode 1)
+
   (set-language-environment 'utf-8)
   (setq locale-coding-system 'utf-8)
   (set-default-coding-systems 'utf-8)
   (set-terminal-coding-system 'utf-8)
   (prefer-coding-system 'utf-8)
+
+  (evil-leader/set-key
+    "os" 'just-one-space)
 
   ;;;; Custom Functions
   (defun duplicate-line-or-region (&optional n)
@@ -258,11 +264,11 @@ This command does not push text to `kill-ring'."
       (insert "#include <iostream>\nusing namespace std;\n\nint main()\n{\n    return 0;\n}\n")))
   (add-hook 'c++-mode-hook 'insert-my-c++-headers)
 
-  (defun insert-my-c-headers ()
-  "Adds default code on creating a new c file."
-    (when (= 0 (buffer-size))
-      (insert "#include <stdio.h>\n#include <stdlib.h>\n\nint main()\n{\n    return 0;\n}\n")))
-  (add-hook 'c-mode-hook 'insert-my-c-headers)
+  ;; (defun insert-my-c-headers ()
+  ;; "Adds default code on creating a new c file."
+  ;;   (when (= 0 (buffer-size))
+  ;;     (insert "#include <stdio.h>\n#include <stdlib.h>\n\nint main()\n{\n    return 0;\n}\n")))
+  ;; (add-hook 'c-mode-hook 'insert-my-c-headers)
 
   (defun open-shell-new-buffer ()
     "Invoke shell in a new vertically split buffer."
@@ -290,8 +296,8 @@ This command does not push text to `kill-ring'."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ac-auto-start t)
- '(ac-delay 0.1)
+ '(ac-auto-start t t)
+ '(ac-delay 0.1 t)
  '(ahs-case-fold-search nil)
  '(ahs-default-range (quote ahs-range-whole-buffer))
  '(ahs-idle-interval 0.25)
@@ -300,13 +306,21 @@ This command does not push text to `kill-ring'."
  '(custom-safe-themes
    (quote
     ("5d8caed7f4ed8929fd79e863de3a38fbb1aaa222970b551edfd2e84552fec020" "6ebb2401451dc6d01cd761eef8fe24812a57793c5ccc427b600893fa1d767b1d" "a041a61c0387c57bb65150f002862ebcfe41135a3e3425268de24200b82d6ec9" "282606e51ef2811142af5068bd6694b7cf643b27d63666868bc97d04422318c1" "d9a09bb02e2a1c54869dfd6a1412553fe5cb2d01a94ba25ef2be4634d1ca2c79" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
+ '(delete-selection-mode t)
+ '(expand-region-contract-fast-key "V")
+ '(expand-region-reset-fast-key "r")
+ '(fill-column 100)
  '(global-company-mode t)
+ '(global-linum-mode t)
  '(global-subword-mode t)
  '(globl-auto-complete-mode t)
+ '(linum-relative-mode t)
  '(package-selected-packages
    (quote
     (web-mode tagedit smex slim-mode shell-pop scss-mode sass-mode restclient rainbow-mode rainbow-identifiers multi-term less-css-mode helm-css-scss helm-c-yasnippet emmet-mode company-web company-statistics company-quickhelp auto-yasnippet ac-ispell auto-complete web-completion-data company yasnippet haml-mode window-numbering volatile-highlights vi-tilde-fringe use-package smooth-scrolling rfringe rainbow-delimiters powerline popup pcre2el paradox page-break-lines open-junk-file neotree move-text linum-relative leuven-theme info+ indent-guide ido-vertical-mode hungry-delete hl-anything highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-descbinds helm-ag guide-key-tip google-translate golden-ratio gh-md fringe-helper flx-ido fill-column-indicator fancy-battery expand-region exec-path-from-shell evil-visualstar evil-tutor evil-terminal-cursor-changer evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-matchit evil-lisp-state evil-jumper evil-indent-textobject evil-iedit-state evil-exchange evil-escape evil-args evil-anzu eval-sexp-fu clean-aindent-mode buffer-move auto-highlight-symbol auto-dictionary aggressive-indent adaptive-wrap ace-window ace-link ace-jump-mode)))
- '(ring-bell-function (quote ignore))
+ '(ring-bell-function (quote ignore) t)
+ '(show-trailing-whitespace t)
+ '(smartparens-global-mode t)
  '(solarized-distinct-fringe-background t)
  '(solarized-use-more-italic t))
 (custom-set-faces
