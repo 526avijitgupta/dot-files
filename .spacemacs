@@ -51,7 +51,7 @@
   (setq-default
    ;; Either `vim' or `emacs'. Evil is always enabled but if the variable
    ;; is `emacs' then the `holy-mode' is enabled at startup.
-   dotspacemacs-editing-style 'emacs
+   dotspacemacs-editing-style 'hybrid
    ;; If non nil output loading progess in `*Messages*' buffer.
    dotspacemacs-verbose-loading nil
    ;; Specify the startup banner. Default value is `official', it displays
@@ -151,6 +151,7 @@
   )
 
 (defun dotspacemacs/user-config ()
+
   (setq-default
    c-basic-offset 4
    indent-tabs-mode nil
@@ -158,9 +159,8 @@
    js2-basic-offset 2
    js-indent-level 2
    )
-  (set-face-attribute 'default nil :height 130)
-
   (emmet-mode 1)
+  (set-face-attribute 'default nil :height 130)
 
   (set-language-environment 'utf-8)
   (setq locale-coding-system 'utf-8)
@@ -280,6 +280,7 @@ This command does not push text to `kill-ring'."
   (global-set-key (kbd "M-<backspace>") 'my-backward-delete-word)
   (global-set-key (kbd "M-<delete>") 'my-backward-delete-word)
   (global-set-key (kbd "M-d") 'my-delete-word)
+  (global-set-key (kbd "C-w") 'kill-whole-line)
   (global-set-key (kbd "C-<f1>") 'execute-c-program)
 
   )
