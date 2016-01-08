@@ -19,23 +19,23 @@
      auto-completion
      better-defaults
      colors
+     ;; diff-hl
      ;; dash
      ;; editorconfig
      git
      ;; github
      ;; eyebrowse
      html
-     ;; javascript
+     javascript
      ;; markdown
+     org
      ;; php
      ;; prodigy
-     restclient
      ;; shell-scripts
      shell
      smex
-     ;; version-control
-     ;; syntax-checking
-     ;; org
+     syntax-checking
+     version-control
      )
    ;; A list of packages and/or extensions that will not be install and loaded.
    dotspacemacs-excluded-packages'()
@@ -106,7 +106,7 @@
    dotspacemacs-enable-paste-micro-state t
    ;; Guide-key delay in seconds. The Guide-key is the popup buffer listing
    ;; the commands bound to the current keystrokes.
-   dotspacemacs-guide-key-delay 0.9
+   dotspacemacs-guide-key-delay 0.5
    ;; If non nil a progress bar is displayed when spacemacs is loading. This
    ;; may increase the boot time on some systems and emacs builds, set it to
    ;; nil ;; to boost the loading time.
@@ -148,23 +148,17 @@
    ;; Not used for now.
    dotspacemacs-default-package-repository nil
    )
-)
+  )
 
-(defun dotspacemacs/config ()
-  "Configuration function.
- This function is called at the very end of Spacemacs initialization after
-layers configuration."
-  (setq large-file-warning-threshold 100000000)
-  (set-face-attribute 'default nil :height 130)
-
+(defun dotspacemacs/user-config ()
   (setq-default
-   dotspacemacs-editing-style 'emacs
    c-basic-offset 4
    indent-tabs-mode nil
    split-width-threshold 0
+   js2-basic-offset 2
    js-indent-level 2
-   git-magit-status-fullscreen t
    )
+  (set-face-attribute 'default nil :height 130)
 
   (emmet-mode 1)
 
@@ -259,7 +253,7 @@ This command does not push text to `kill-ring'."
       (comment-or-uncomment-region beg end)))
 
   (defun insert-my-c++-headers ()
-  "Adds default code on creating a new c++ file."
+    "Adds default code on creating a new c++ file."
     (when (= 0 (buffer-size))
       (insert "#include <iostream>\nusing namespace std;\n\nint main()\n{\n    return 0;\n}\n")))
   (add-hook 'c++-mode-hook 'insert-my-c++-headers)
@@ -287,46 +281,5 @@ This command does not push text to `kill-ring'."
   (global-set-key (kbd "M-<delete>") 'my-backward-delete-word)
   (global-set-key (kbd "M-d") 'my-delete-word)
   (global-set-key (kbd "C-<f1>") 'execute-c-program)
- )
 
-;; Do not write anything past this comment. This is where Emacs will
-;; auto-generate custom variable definitions.
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(ac-auto-start t t)
- '(ac-delay 0.1 t)
- '(ahs-case-fold-search nil)
- '(ahs-default-range (quote ahs-range-whole-buffer))
- '(ahs-idle-interval 0.25)
- '(ahs-idle-timer 0 t)
- '(ahs-inhibit-face-list nil)
- '(custom-safe-themes
-   (quote
-    ("5d8caed7f4ed8929fd79e863de3a38fbb1aaa222970b551edfd2e84552fec020" "6ebb2401451dc6d01cd761eef8fe24812a57793c5ccc427b600893fa1d767b1d" "a041a61c0387c57bb65150f002862ebcfe41135a3e3425268de24200b82d6ec9" "282606e51ef2811142af5068bd6694b7cf643b27d63666868bc97d04422318c1" "d9a09bb02e2a1c54869dfd6a1412553fe5cb2d01a94ba25ef2be4634d1ca2c79" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
- '(delete-selection-mode t)
- '(expand-region-contract-fast-key "V")
- '(expand-region-reset-fast-key "r")
- '(fill-column 100)
- '(global-company-mode t)
- '(global-linum-mode t)
- '(global-subword-mode t)
- '(globl-auto-complete-mode t)
- '(linum-relative-mode t)
- '(package-selected-packages
-   (quote
-    (web-mode tagedit smex slim-mode shell-pop scss-mode sass-mode restclient rainbow-mode rainbow-identifiers multi-term less-css-mode helm-css-scss helm-c-yasnippet emmet-mode company-web company-statistics company-quickhelp auto-yasnippet ac-ispell auto-complete web-completion-data company yasnippet haml-mode window-numbering volatile-highlights vi-tilde-fringe use-package smooth-scrolling rfringe rainbow-delimiters powerline popup pcre2el paradox page-break-lines open-junk-file neotree move-text linum-relative leuven-theme info+ indent-guide ido-vertical-mode hungry-delete hl-anything highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-descbinds helm-ag guide-key-tip google-translate golden-ratio gh-md fringe-helper flx-ido fill-column-indicator fancy-battery expand-region exec-path-from-shell evil-visualstar evil-tutor evil-terminal-cursor-changer evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-matchit evil-lisp-state evil-jumper evil-indent-textobject evil-iedit-state evil-exchange evil-escape evil-args evil-anzu eval-sexp-fu clean-aindent-mode buffer-move auto-highlight-symbol auto-dictionary aggressive-indent adaptive-wrap ace-window ace-link ace-jump-mode)))
- '(ring-bell-function (quote ignore) t)
- '(show-trailing-whitespace t)
- '(smartparens-global-mode t)
- '(solarized-distinct-fringe-background t)
- '(solarized-use-more-italic t))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(company-tooltip-common ((t (:inherit company-tooltip :weight bold :underline nil))))
- '(company-tooltip-common-selection ((t (:inherit company-tooltip-selection :weight bold :underline nil)))))
+  )
