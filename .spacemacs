@@ -23,7 +23,7 @@
      ;; dash
      ;; editorconfig
      git
-     ;; github
+     github
      ;; eyebrowse
      html
      javascript
@@ -34,7 +34,7 @@
      ;; shell-scripts
      shell
      smex
-     syntax-checking
+     ;; syntax-checking
      version-control
      )
    ;; A list of packages and/or extensions that will not be install and loaded.
@@ -120,7 +120,7 @@
    ;; If non nil the frame is maximized when Emacs starts up.
    ;; Takes effect only if `dotspacemacs-fullscreen-at-startup' is nil.
    ;; (Emacs 24.4+ only)
-   ;; dotspacemacs-maximized-at-startup t
+   dotspacemacs-maximized-at-startup t
    ;; A value from the range (0..100), in increasing opacity, which describes
    ;; the transparency level of a frame when it's active or selected.
    ;; Transparency can be toggled through `toggle-transparency'.
@@ -147,6 +147,10 @@
    ;; specified with an installed package.
    ;; Not used for now.
    dotspacemacs-default-package-repository nil
+
+   ;; Added by hand, does not work when added to dotspacemacs/user-config:
+   dotspacemacs-line-numbers t
+   dotspacemacs-smartparens-strict-mode t
    )
   )
 
