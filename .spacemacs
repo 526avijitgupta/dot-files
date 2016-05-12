@@ -70,9 +70,9 @@
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(sanityinc-solarized-dark
+                         gruvbox
                          spacemacs-dark
                          monokai
-                         gruvbox
                          twilight-anti-bright
                          birds-of-paradise-plus
                          cyberpunk
@@ -150,7 +150,7 @@
 
    ;; Added by hand, does not work when added to dotspacemacs/user-config:
    dotspacemacs-line-numbers t
-   dotspacemacs-smartparens-strict-mode t
+   ;; dotspacemacs-smartparens-strict-mode t
    )
   )
 
