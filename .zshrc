@@ -2,13 +2,16 @@
 # Path to your oh-my-zsh installation.
 export ZSH=/home/avijit/.oh-my-zsh
 
+export DEFAULT_USER='avijit'
+
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
-ZSH_THEME="xiong-chiamiov-plus"
+# ZSH_THEME="xiong-chiamiov-plus"
+ZSH_THEME="agnoster"
 # ZSH_THEME="gitster"
-
+# ZSH_THEME="random"
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
 
@@ -25,7 +28,7 @@ ZSH_THEME="xiong-chiamiov-plus"
 # DISABLE_AUTO_TITLE="true"
 
 # Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
+ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
 # COMPLETION_WAITING_DOTS="true"
@@ -75,8 +78,12 @@ alias sem='sudo emacs'
 alias qw='cd /var/www/'
 alias youtube-mp3='youtube-dl --extract-audio --audio-format mp3'
 alias tunnel='ssh -L 8080:localhost:80 526avijit@u5kkc60d14c2.526avijit.koding.io -D 8888'
-alias night-mode='sudo su -c "echo 20 >/sys/class/backlight/intel_backlight/brightness"'
-# alias eclipse='cd && ./Downloads/adt-bundle-linux-x86_64-20140321/eclipse/eclipse'
+alias eclipse='~/Softwares/eclipse/eclipse &'
+alias night-mode='sudo su -c "echo 5 >/sys/class/backlight/intel_backlight/brightness"'
+alias genymotion='~/Softwares/genymotion/genymotion &'
+alias zshconfig="ec ~/.zshrc"
+alias zshreload="source ~/.zshrc"
+alias composer='/usr/local/bin/composer.phar'
 
 # some more ls aliases
 alias ll='ls -alF'
@@ -96,12 +103,35 @@ export PATH=$LINUXBREWHOME/bin:$PATH
 export MANPATH=$LINUXBREWHOME/man:$MANPATH
 export PKG_CONFIG_PATH=$LINUXBREWHOME/lib64/pkgconfig:$LINUXBREWHOME/lib/pkgconfig:$PKG_CONFIG_PATH
 export LD_LIBRARY_PATH=$LINUXBREWHOME/lib64:$LINUXBREWHOME/lib:$LD_LIBRARY_PATH
+export ANDROID_HOME=$HOME/Softwares/android-sdk-linux
 
 # load virtualenvwrapper for python (after custom PATHs)
 venvwrap="virtualenvwrapper.sh"
-/usr/bin/which $venvwrap
+# /usr/bin/which $venvwrap
 if [ $? -eq 0 ]; then
     venvwrap=`/usr/bin/which $venvwrap`
     source $venvwrap
     fi
 PATH=~/.local/bin:$PATH
+
+function exists { which $1 &> /dev/null }
+
+if exists percol; then
+    function percol_select_history() {
+        local tac
+        exists gtac && tac="gtac" || { exists tac && tac="tac" || { tac="tail -r" } }
+        BUFFER=$(fc -l -n 1 | eval $tac | percol --query "$LBUFFER")
+        CURSOR=$#BUFFER         # move cursor
+        zle -R -c               # refresh
+    }
+
+    zle -N percol_select_history
+    bindkey '^R' percol_select_history
+fi
+
+PATH=$PATH:$HOME/Softwares/android-sdk-linux:$HOME/Softwares/android-sdk-linux/tools
+export PATH
+PATH=~/.local/bin:$PATH
+
+### Added by the Heroku Toolbelt
+export PATH="/usr/local/heroku/bin:$PATH"
