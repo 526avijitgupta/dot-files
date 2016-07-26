@@ -35,8 +35,19 @@
      shell
      smex
      ;; syntax-checking
+     themes-megapack
      version-control
      )
+
+   ;; List of additional packages that will be installed wihout being
+   ;; wrapped in a layer. If you need some configuration for these
+   ;; packages then consider to create a layer, you can also put the
+   ;; configuration in `dotspacemacs/config'.
+   dotspacemacs-additional-packages '(stylus-mode
+                                      less
+                                      less-css-mode
+                                      )
+
    ;; A list of packages and/or extensions that will not be install and loaded.
    dotspacemacs-excluded-packages'()
    ;; If non-nil spacemacs will delete any orphan packages, i.e. packages that
@@ -69,14 +80,15 @@
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(sanityinc-solarized-dark
+   dotspacemacs-themes '(gotham
+                         farmhouse-dark
+                         sanityinc-solarized-dark
                          gruvbox
                          spacemacs-dark
                          monokai
                          twilight-anti-bright
                          birds-of-paradise-plus
                          cyberpunk
-                         gotham
                          molokai)
    ;; If non nil the cursor color matches the state color.
    dotspacemacs-colorize-cursor-according-to-state t
@@ -147,14 +159,17 @@
    ;; specified with an installed package.
    ;; Not used for now.
    dotspacemacs-default-package-repository nil
-
-   ;; Added by hand, does not work when added to dotspacemacs/user-config:
-   dotspacemacs-line-numbers t
+   ;; ;; Added by hand, does not work when added to dotspacemacs/user-config:
+   ;; dotspacemacs-line-numbers t
    ;; dotspacemacs-smartparens-strict-mode t
    )
   )
 
 (defun dotspacemacs/user-config ()
+
+  ;; Make linums relative by default
+  (global-linum-mode nil)
+  (linum-relative-toggle)
 
   (setq-default
    c-basic-offset 4
@@ -165,6 +180,7 @@
    )
   (emmet-mode 1)
   (set-face-attribute 'default nil :height 130)
+  (setq mac-command-modifier 'control)
 
   (set-language-environment 'utf-8)
   (setq locale-coding-system 'utf-8)
