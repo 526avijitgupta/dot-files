@@ -43,9 +43,10 @@
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages then consider to create a layer, you can also put the
    ;; configuration in `dotspacemacs/config'.
-   dotspacemacs-additional-packages '(stylus-mode
-                                      less
-                                      less-css-mode
+   dotspacemacs-additional-packages '(
+                                      stylus-mode
+                                      evil-matchit
+                                      ag
                                       )
 
    ;; A list of packages and/or extensions that will not be install and loaded.
@@ -64,7 +65,7 @@
    ;; is `emacs' then the `holy-mode' is enabled at startup.
    dotspacemacs-editing-style 'hybrid
    ;; If non nil output loading progess in `*Messages*' buffer.
-   dotspacemacs-verbose-loading nil
+   dotspacemacs-verbose-loading t
    ;; Specify the startup banner. Default value is `official', it displays
    ;; the official spacemacs logo. An integer value is the index of text
    ;; banner, `random' chooses a random text banner in `core/banners'
@@ -80,7 +81,8 @@
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(gotham
+   dotspacemacs-themes '(
+                         gotham
                          farmhouse-dark
                          sanityinc-solarized-dark
                          gruvbox
@@ -89,7 +91,8 @@
                          twilight-anti-bright
                          birds-of-paradise-plus
                          cyberpunk
-                         molokai)
+                         molokai
+                         )
    ;; If non nil the cursor color matches the state color.
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font. `powerline-scale' allows to quickly tweak the mode-line
@@ -118,29 +121,31 @@
    dotspacemacs-enable-paste-micro-state t
    ;; Guide-key delay in seconds. The Guide-key is the popup buffer listing
    ;; the commands bound to the current keystrokes.
-   dotspacemacs-guide-key-delay 0.5
+   dotspacemacs-guide-key-delay 0.2
    ;; If non nil a progress bar is displayed when spacemacs is loading. This
    ;; may increase the boot time on some systems and emacs builds, set it to
    ;; nil ;; to boost the loading time.
-   dotspacemacs-loading-progress-bar nil
+   dotspacemacs-loading-progress-bar t
    ;; If non nil the frame is fullscreen when Emacs starts up.
    ;; (Emacs 24.4+ only)
-   dotspacemacs-fullscreen-at-startup nil
+   dotspacemacs-fullscreen-at-startup t
    ;; If non nil `spacemacs/toggle-fullscreen' will not use native fullscreen.
    ;; Use to disable fullscreen animations in OSX."
    dotspacemacs-fullscreen-use-non-native nil
    ;; If non nil the frame is maximized when Emacs starts up.
    ;; Takes effect only if `dotspacemacs-fullscreen-at-startup' is nil.
    ;; (Emacs 24.4+ only)
-   dotspacemacs-maximized-at-startup t
+   dotspacemacs-maximized-at-startup nil
    ;; A value from the range (0..100), in increasing opacity, which describes
    ;; the transparency level of a frame when it's active or selected.
    ;; Transparency can be toggled through `toggle-transparency'.
    ;; dotspacemacs-active-transparency 90
+   dotspacemacs-active-transparency 90
    ;; A value from the range (0..100), in increasing opacity, which describes
    ;; the transparency level of a frame when it's inactive or deselected.
    ;; Transparency can be toggled through `toggle-transparency'.
    ;; dotspacemacs-inactive-transparency 90
+   dotspacemacs-inactive-transparency 90
    ;; If non nil unicode symbols are displayed in the mode line.
    dotspacemacs-mode-line-unicode-symbols t
    ;; If non nil smooth scrolling (native-scrolling) is enabled. Smooth
@@ -154,7 +159,7 @@
    ;; List of search tool executable names. Spacemacs uses the first installed
    ;; tool of the list. Supported tools are `ag', `pt', `ack' and `grep'.
    ;; dotspacemacs-search-tools '("ag" "pt" "ack" "grep")
-   dotspacemacs-search-tools '("grep")
+   dotspacemacs-search-tools '("ag")
    ;; The default package repository used if no explicit repository has been
    ;; specified with an installed package.
    ;; Not used for now.
@@ -170,6 +175,7 @@
   ;; Make linums relative by default
   (global-linum-mode nil)
   (linum-relative-toggle)
+  (global-evil-matchit-mode 1)
 
   (setq-default
    c-basic-offset 4
@@ -187,9 +193,6 @@
   (set-default-coding-systems 'utf-8)
   (set-terminal-coding-system 'utf-8)
   (prefer-coding-system 'utf-8)
-
-  (evil-leader/set-key
-    "os" 'just-one-space)
 
   ;;;; Custom Functions
   (defun duplicate-line-or-region (&optional n)
@@ -300,7 +303,4 @@ This command does not push text to `kill-ring'."
   (global-set-key (kbd "M-<backspace>") 'my-backward-delete-word)
   (global-set-key (kbd "M-<delete>") 'my-backward-delete-word)
   (global-set-key (kbd "M-d") 'my-delete-word)
-  (global-set-key (kbd "C-w") 'kill-whole-line)
-  (global-set-key (kbd "C-<f1>") 'execute-c-program)
-
   )
