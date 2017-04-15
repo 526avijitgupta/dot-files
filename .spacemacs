@@ -68,7 +68,7 @@
   ;; spacemacs settings.
   (setq-default
    ;; (manually added) Remap Esc key.
-   evil-escape-key-sequence "fj"
+   evil-escape-key-sequence "fd"
    ;; Either `vim' or `emacs'. Evil is always enabled but if the variable
    ;; is `emacs' then the `holy-mode' is enabled at startup.
    dotspacemacs-editing-style 'vim
@@ -148,7 +148,7 @@
    ;; the transparency level of a frame when it's active or selected.
    ;; Transparency can be toggled through `toggle-transparency'.
    ;; dotspacemacs-active-transparency 90
-   dotspacemacs-active-transparency 90
+   dotspacemacs-active-transparency 80
    ;; A value from the range (0..100), in increasing opacity, which describes
    ;; the transparency level of a frame when it's inactive or deselected.
    ;; Transparency can be toggled through `toggle-transparency'.
@@ -195,7 +195,7 @@
    js-indent-level 2
    )
   (emmet-mode 1)
-  (set-face-attribute 'default nil :height 135)
+  (set-face-attribute 'default nil :height 130)
   (setq mac-command-modifier 'control)
 
   (set-language-environment 'utf-8)
@@ -306,8 +306,7 @@ This command does not push text to `kill-ring'."
 
   ;;;; Keybindings
   (global-set-key (kbd "C-k") 'ruthlessly-kill-line)
-  (global-set-key (kbd "C-q") 'duplicate-line-or-region)
-  (global-set-key (kbd "C-!") 'open-shell-new-buffer)
+  (global-set-key (kbd "C-S-d") 'duplicate-line-or-region)
   (global-set-key (kbd "C-S-<backspace>") 'ruthlessly-kill-whole-line)
   (global-set-key (kbd "M-;") 'comment-or-uncomment-region-or-line)
   (global-set-key (kbd "M-<backspace>") 'my-backward-delete-word)
