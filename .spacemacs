@@ -22,21 +22,27 @@
      ;; diff-hl
      ;; dash
      ;; editorconfig
-     git
-     github
+     elixir
      ;; eyebrowse
+     ;; git
+     ;; github
+     go
      html
      javascript
-     ;; markdown
+     markdown
      org
      ;; php
      ;; prodigy
+     python
+     ruby
      ;; shell-scripts
+     react
      shell
      smex
      ;; syntax-checking
      themes-megapack
-     version-control
+     ;; version-control
+     yaml
      )
 
    ;; List of additional packages that will be installed wihout being
@@ -65,7 +71,7 @@
    evil-escape-key-sequence "fj"
    ;; Either `vim' or `emacs'. Evil is always enabled but if the variable
    ;; is `emacs' then the `holy-mode' is enabled at startup.
-   dotspacemacs-editing-style 'hybrid
+   dotspacemacs-editing-style 'vim
    ;; If non nil output loading progess in `*Messages*' buffer.
    dotspacemacs-verbose-loading t
    ;; Specify the startup banner. Default value is `official', it displays
@@ -147,7 +153,7 @@
    ;; the transparency level of a frame when it's inactive or deselected.
    ;; Transparency can be toggled through `toggle-transparency'.
    ;; dotspacemacs-inactive-transparency 90
-   dotspacemacs-inactive-transparency 90
+   dotspacemacs-inactive-transparency 80
    ;; If non nil unicode symbols are displayed in the mode line.
    dotspacemacs-mode-line-unicode-symbols t
    ;; If non nil smooth scrolling (native-scrolling) is enabled. Smooth
@@ -173,11 +179,13 @@
   )
 
 (defun dotspacemacs/user-config ()
-
   ;; Make linums relative by default
   (global-linum-mode nil)
   (linum-relative-toggle)
   (global-evil-matchit-mode 1)
+  (global-evil-mc-mode)
+
+  (global-company-mode)
 
   (setq-default
    c-basic-offset 4
@@ -187,7 +195,7 @@
    js-indent-level 2
    )
   (emmet-mode 1)
-  (set-face-attribute 'default nil :height 130)
+  (set-face-attribute 'default nil :height 135)
   (setq mac-command-modifier 'control)
 
   (set-language-environment 'utf-8)
@@ -305,4 +313,33 @@ This command does not push text to `kill-ring'."
   (global-set-key (kbd "M-<backspace>") 'my-backward-delete-word)
   (global-set-key (kbd "M-<delete>") 'my-backward-delete-word)
   (global-set-key (kbd "M-d") 'my-delete-word)
+  )
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(css-indent-offset 2)
+ '(web-mode-code-indent-offset 2)
+ '(web-mode-css-indent-offset 2)
+ '(web-mode-indent-style 1)
+ '(web-mode-markup-indent-offset 2))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+
+(defun dotspacemacs/config ()
+  "This is were you can ultimately override default Spacemacs configuration.
+This function is called at the very end of Spacemacs initialization."
+  ;; Load Tern
+  (add-to-list 'load-path "/usr/local/lib/node_modules/tern/emacs")
+  (autoload 'tern-mode "tern.el" nil t)
+  (add-hook 'js-mode-hook (lambda () (tern-mode t)))
+  (eval-after-load 'tern
+    '(progn
+       (require 'tern-auto-complete)
+       (tern-ac-setup)))
   )

@@ -1,19 +1,13 @@
-
 # Path to your oh-my-zsh installation.
-export ZSH=/home/avijit/.oh-my-zsh
+export ZSH=/Users/aviato/.oh-my-zsh
 
-export DEFAULT_USER='avijit'
+DEFAULT_USER='aviato'
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
-# ZSH_THEME="xiong-chiamiov-plus"
-ZSH_THEME="agnoster"
-# ZSH_THEME="gitster"
-# ZSH_THEME="random"
-# Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
+ZSH_THEME="steeef"
 
 # Uncomment the following line to disable bi-weekly auto-update checks.
 # DISABLE_AUTO_UPDATE="true"
@@ -50,88 +44,59 @@ ENABLE_CORRECTION="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git autojump)
+plugins=(git autojump brew)
 
-export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
+# User configuration
+
+# export MANPATH="/usr/local/man:$MANPATH"
+
 source $ZSH/oh-my-zsh.sh
-export EDITOR="emacsclient -t"
-export VISUAL="emacsclient -c -a"
-export ALTERNATE_EDITOR="emacs"
-export SUDO_EDITOR="emacsclient -n -c"
 
-# Emacs run in background
-em() {
-    emacs "$@" &
-}
+# You may need to manually set your language environment
+# export LANG=en_US.UTF-8
 
-ec() {
-    emacsclient -c -n "$@" &
-}
+# Preferred editor for local and remote sessions
+# if [[ -n $SSH_CONNECTION ]]; then
+#   export EDITOR='vim'
+# else
+#   export EDITOR='mvim'
+# fi
+
+# Compilation flags
+# export ARCHFLAGS="-arch x86_64"
+
+# ssh
+# export SSH_KEY_PATH="~/.ssh/dsa_id"
+
+# Set personal aliases, overriding those provided by oh-my-zsh libs,
+# plugins, and themes. Aliases can be placed here, though oh-my-zsh
+# users are encouraged to define aliases within the ZSH_CUSTOM folder.
+# For a full list of active aliases, run `alias`.
+#
+# Example aliases
+# alias zshconfig="mate ~/.zshrc"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
+
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
 
 jcurl() {
     curl "$1" | json | pygmentize -l json
 }
 
-# Custom aliases
-alias et='emacs -nw'
-alias sem='sudo emacs'
-alias qw='cd /var/www/'
 alias youtube-mp3='youtube-dl --extract-audio --audio-format mp3'
 alias tunnel='ssh -L 8080:localhost:80 526avijit@u5kkc60d14c2.526avijit.koding.io -D 8888'
-alias eclipse='~/Softwares/eclipse/eclipse &'
-alias night-mode='sudo su -c "echo 5 >/sys/class/backlight/intel_backlight/brightness"'
-alias genymotion='~/Softwares/genymotion/genymotion &'
-alias zshconfig="ec ~/.zshrc"
+alias zshconfig="emc ~/.zshrc"
 alias zshreload="source ~/.zshrc"
-alias composer='/usr/local/bin/composer.phar'
 
-# some more ls aliases
-alias ll='ls -alF'
-alias la='ls -A'
-alias l='ls -CF'
-
-# Added by install script for node.js and npm in 30s
-export PATH=$HOME/local/bin:$PATH
-export NODE_PATH=$HOME/local/lib/node_modules
-
-# Until LinuxBrew is fixed, the following is required.
-# See: https://github.com/Homebrew/linuxbrew/issues/47
-export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:/usr/local/lib64/pkgconfig:/usr/lib64/pkgconfig:/usr/lib/pkgconfig:/usr/lib/x86_64-linux-gnu/pkgconfig:/usr/lib64/pkgconfig:/usr/share/pkgconfig:$PKG_CONFIG_PATH
-## Setup linux brew
-export LINUXBREWHOME=$HOME/.linuxbrew
-export PATH=$LINUXBREWHOME/bin:$PATH
-export MANPATH=$LINUXBREWHOME/man:$MANPATH
-export PKG_CONFIG_PATH=$LINUXBREWHOME/lib64/pkgconfig:$LINUXBREWHOME/lib/pkgconfig:$PKG_CONFIG_PATH
-export LD_LIBRARY_PATH=$LINUXBREWHOME/lib64:$LINUXBREWHOME/lib:$LD_LIBRARY_PATH
-export ANDROID_HOME=$HOME/Softwares/android-sdk-linux
+export PATH="$HOME/.yarn/bin:$PATH"
 
 # load virtualenvwrapper for python (after custom PATHs)
 venvwrap="virtualenvwrapper.sh"
-# /usr/bin/which $venvwrap
+/usr/bin/which -s $venvwrap
 if [ $? -eq 0 ]; then
     venvwrap=`/usr/bin/which $venvwrap`
     source $venvwrap
-    fi
-PATH=~/.local/bin:$PATH
-
-function exists { which $1 &> /dev/null }
-
-if exists percol; then
-    function percol_select_history() {
-        local tac
-        exists gtac && tac="gtac" || { exists tac && tac="tac" || { tac="tail -r" } }
-        BUFFER=$(fc -l -n 1 | eval $tac | percol --query "$LBUFFER")
-        CURSOR=$#BUFFER         # move cursor
-        zle -R -c               # refresh
-    }
-
-    zle -N percol_select_history
-    bindkey '^R' percol_select_history
 fi
-
-PATH=$PATH:$HOME/Softwares/android-sdk-linux:$HOME/Softwares/android-sdk-linux/tools
-export PATH
-PATH=~/.local/bin:$PATH
-
-### Added by the Heroku Toolbelt
-export PATH="/usr/local/heroku/bin:$PATH"
+alias config='/usr/bin/git --git-dir=/Users/aviato/.cfgs/ --work-tree=/Users/aviato'
