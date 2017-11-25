@@ -7,7 +7,7 @@ export ZSH=/Users/avijg/.oh-my-zsh
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="agnoster"
+ZSH_THEME=""
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -51,11 +51,10 @@ ZSH_THEME="agnoster"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git autojump)
+plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 
-DEFAULT_USER='avijg'
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
@@ -69,8 +68,6 @@ DEFAULT_USER='avijg'
 # else
 #   export EDITOR='mvim'
 # fi
-
-function search() { find . -iname "*$@*" | less; }
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -86,29 +83,23 @@ function search() { find . -iname "*$@*" | less; }
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-export PATH=$BRAZIL_CLI_BIN:$PATH
-alias ccat="pygmentize -g"
 
-alias vim=nvim
+alias sshenv='/Users/avijg/Downloads/archive/sshenv'
+alias getApolloEnvironmentHosts='/Users/avijg/Downloads/archive/getApolloEnvironmentHosts'
 
 alias bb=brazil-build
-alias bba='brazil-build apollo-pkg'
-alias bbr='brazil-build release'
 alias bbs='brazil-build server'
-alias bre='brazil-runtime-exec'
-alias brc='brazil-recursive-cmd'
-alias bws='brazil ws'
-alias bwsuse='bws use --gitMode -p'
-alias bwscreate='bws create -n'
-alias brc='brazil-recursive-cmd'
-alias bbr='brc brazil-build'
-alias bball='brc --allPackages'
+alias bba='brazil-build apollo-pkg'
 alias bbb='brc --allPackages brazil-build'
-alias bbra='bbr apollo-pkg'
+alias bbr='brc brazil-build'
+alias brc=brazil-recursive-cmd
+alias bre=brazil-runtime-exec
+alias bws='brazil ws'
+alias ccat="pygmentize -g"
 
-alias emc='emacs . > /dev/null 2>&1 &'
-
-export PATH=$PATH:/apollo/env/SDETools/bin
-export PATH=$PATH:/Users/avijg/bin
-export JAVA_HOME=$(/usr/libexec/java_home)
-alias config='/usr/bin/git --git-dir=/Users/avijg/.cfgs/ --work-tree=/Users/avijg'
+autoload -U promptinit; promptinit
+prompt pure
+export PATH=$BRAZIL_CLI_BIN:$PATH
+source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+export PATH="$PATH":~/bin
